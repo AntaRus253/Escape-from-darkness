@@ -7,7 +7,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Keybinds")] 
-    [SerializeField] private KeyCode jumpKey ;
+    [SerializeField] private KeyCode jumpKey = KeyCode.Space ;
 
 
     [Header("Movement")] 
