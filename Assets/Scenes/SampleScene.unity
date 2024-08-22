@@ -1408,7 +1408,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1616255783}
-  - component: {fileID: 1616255784}
   - component: {fileID: 1616255786}
   - component: {fileID: 1616255785}
   m_Layer: 0
@@ -1436,29 +1435,6 @@ Transform:
   - {fileID: 103114863}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1616255784
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1616255781}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3942f1da20996a84099631b6b88e32b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  jumpKey: 32
-  moveSpeed: 10
-  groundDrag: 5
-  jumpForce: 0
-  jumpCooldown: 0
-  airMultiplier: 0
-  playerHeight: 2
-  whatIsGround:
-    serializedVersion: 2
-    m_Bits: 1024
-  orientation: {fileID: 292562784}
 --- !u!114 &1616255785
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1475,7 +1451,7 @@ MonoBehaviour:
   jumpKey: 32
   accelerationKey: 306
   speed: 10
-  accelerationBoost: 0
+  accelerationBoost: 1.5
   groundMask:
     serializedVersion: 2
     m_Bits: 1024
