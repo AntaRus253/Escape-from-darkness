@@ -11,10 +11,10 @@ public class Controller : MonoBehaviour
 
     [Header("Keybinds")] 
     [SerializeField] private KeyCode jumpKey = KeyCode.Space;
-    [SerializeField] private KeyCode accelerationKey = KeyCode.LeftControl;
+    [SerializeField] private KeyCode accelerationKey = KeyCode.LeftShift;
     
     [Header("Movement")]
-    [SerializeField] private float speed=10f;
+    [SerializeField] private float speed=7f;
     [SerializeField] private float accelerationBoost=1.5f;
     [SerializeField] private float jumpCooldown=0.3f;
     [SerializeField] private float jumpHeight=4f;
@@ -106,7 +106,7 @@ public class Controller : MonoBehaviour
                 }
             }
         }
-        if (Input.GetKey(accelerationKey)&&!jumpProcess)
+        if (Input.GetKey(accelerationKey))
         {
             acceleration = true;
         }

@@ -187,7 +187,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 42498464}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -1077,8 +1077,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34c285e173f7f9948928057307404972, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SensX: 200
-  SensY: 200
+  Sens: 400
   orientation: {fileID: 292562784}
 --- !u!114 &1109374138
 MonoBehaviour:
@@ -1449,9 +1448,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   orientation: {fileID: 292562784}
   jumpKey: 32
-  accelerationKey: 306
-  speed: 10
+  accelerationKey: 304
+  speed: 7
   accelerationBoost: 1.5
+  jumpCooldown: 0.3
+  jumpHeight: 4
+  maxNumberOfJumps: 1
+  airMultiplier: 0.3
+  mass: 3
   groundMask:
     serializedVersion: 2
     m_Bits: 1024
