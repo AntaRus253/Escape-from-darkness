@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -13,23 +14,31 @@ public class Controller : MonoBehaviour
     [SerializeField] private KeyCode accelerationKey = KeyCode.LeftControl;
     
     [Header("Movement")]
-    [SerializeField] private float speed;
-    [SerializeField] private float accelerationBoost;
+    [SerializeField] private float speed=10f;
+    [SerializeField] private float accelerationBoost=1.5f;
+    [SerializeField] private float jumpCooldown=0.3f;
+    [SerializeField] private float jumpHeight=4f;
+    [SerializeField] private int maxNumberOfJumps=1;
+    [SerializeField] private float airMultiplier=0.3f;
 
     [Header("Physics")] 
+    [SerializeField] private float mass=3f;
     [SerializeField] private LayerMask groundMask;
-    [SerializeField] private float gravity;
-    [SerializeField] private float startGravity;
-    [SerializeField] private float groundDistance=0.3f;
+    [SerializeField] private float gravity=10f;
+    [SerializeField] private float startGravity=1f;
+    [SerializeField] private float groundDistance=0.33f;
 
 
+    private float numberOfJumps;
     private bool acceleration;
+    private bool jumpProcess;
     private bool grounded;
     private CharacterController characterController;
     private Vector3 moveDirection;
     private Vector3 velocity;
     private float horizontalInput;
     private float verticalInput;
+    private bool readyToJump=true;
 
     private void Start()
     {
@@ -42,7 +51,15 @@ public class Controller : MonoBehaviour
         {
             velocity.y = -startGravity;
         }
-
+        if (grounded)
+        {
+            if (readyToJump)
+            {
+                jumpProcess = false;
+                numberOfJumps = maxNumberOfJumps;
+            }
+        }
+        
         MyInput();
         MovePlayer();
     }
@@ -50,24 +67,46 @@ public class Controller : MonoBehaviour
     private void MovePlayer()
     {
         
-        moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
+        if (jumpProcess)
+        {
+            verticalInput = Math.Clamp(verticalInput, verticalInput * airMultiplier, 1);
+            horizontalInput *= airMultiplier;
+        }
         
+        moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
+
         if (acceleration)
         {
             moveDirection *= accelerationBoost;
         }
         
-        characterController.Move(moveDirection*speed*Time.deltaTime);
-            
-        velocity.y -= gravity * Time.deltaTime;
-        characterController.Move(velocity * Time.deltaTime);
+        
+        velocity.y -= mass * gravity * Time.deltaTime;
+        
+        characterController.Move((moveDirection * speed + velocity) * Time.deltaTime);
 
     }
+
     private void MyInput()
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");
         verticalInput = Input.GetAxisRaw("Vertical");
-        if (Input.GetKey(accelerationKey))
+        if (Input.GetKey(jumpKey))
+        {
+            jumpProcess = true;
+            if (grounded)
+            {
+                jump();
+            }
+            else
+            {
+                if (maxNumberOfJumps > numberOfJumps)
+                {
+                    jump();
+                }
+            }
+        }
+        if (Input.GetKey(accelerationKey)&&!jumpProcess)
         {
             acceleration = true;
         }
@@ -75,6 +114,20 @@ public class Controller : MonoBehaviour
         {
             acceleration = false;
         }
-        
+    }
+
+    private void jump()
+    {
+        if (numberOfJumps > 0&&readyToJump)
+        {
+            velocity.y = Mathf.Sqrt(jumpHeight * 2f * gravity);
+            numberOfJumps--;
+            readyToJump = false;
+            Invoke(nameof(ResetJump), jumpCooldown);
+        }
+    }
+    private void ResetJump()
+    {
+        readyToJump = true;
     }
 }
