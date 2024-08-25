@@ -914,3 +914,6 @@ Cmd: compileSnippet
   error: 1 plat 4 at (383): implicit truncation of vector type
  ok=1 outsize=10958
 
+Cmd: shutdown
+
+Quitting shader compiler process
